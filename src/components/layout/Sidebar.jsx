@@ -11,22 +11,30 @@ import {
   BarChart3,
   Settings,
   ShieldCheck,
-  Building2
+  Building2,
+  Headphones
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 export const Sidebar = () => {
-  const { user, business, isAdmin, isAgent, isCustomer } = useAuth();
+  const { user, business } = useAuth();
   const location = useLocation();
 
   const navigation = [
-    { name: 'Overview', href: '/', icon: LayoutDashboard, roles: ['admin', 'agent', 'customer'] },
-    { name: 'AI Assistant', href: '/assistant', icon: Bot, roles: ['admin', 'agent', 'customer'] },
-    { name: 'Conversations', href: '/conversations', icon: MessageSquare, roles: ['admin', 'agent', 'customer'] },
-    { name: 'Customers', href: '/customers', icon: Users, roles: ['admin', 'agent'] },
+    { name: 'Dashboard', href: '/', icon: LayoutDashboard, roles: ['admin', 'agent', 'customer'] },
+    { 
+      name: 'Customer Live Chat', 
+      href: '/assistant', 
+      icon: MessageSquare, 
+      roles: ['admin', 'agent', 'customer'],
+      badge: 'LIVE AI',
+      badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+    },
+    { name: 'Customer Interaction', href: '/conversations', icon: Bot, roles: ['admin', 'agent', 'customer'] },
     { name: 'Support Tickets', href: '/tickets', icon: Ticket, roles: ['admin', 'agent', 'customer'] },
     { name: 'Recommendations', href: '/recommendations', icon: Sparkles, roles: ['admin', 'agent', 'customer'] },
     { name: 'Knowledge Base', href: '/knowledge', icon: BookOpen, roles: ['admin', 'agent', 'customer'] },
+    { name: 'Customers', href: '/customers', icon: Users, roles: ['admin', 'agent'] },
     { name: 'Analytics', href: '/analytics', icon: BarChart3, roles: ['admin', 'agent'] },
     { name: 'Settings', href: '/settings', icon: Settings, roles: ['admin'] },
   ];
@@ -62,7 +70,7 @@ export const Sidebar = () => {
               {business?.name || 'Apex Cloud Tech'}
             </p>
             <p className="text-[11px] text-slate-500 truncate capitalize">
-              Role: <span className="text-brand-400 font-medium">{user?.role}</span>
+              Account: <span className="text-brand-400 font-medium">{user?.role}</span>
             </p>
           </div>
         </div>
@@ -84,10 +92,10 @@ export const Sidebar = () => {
                 }`}
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-brand-400' : 'text-slate-400'}`} />
-                <span>{item.name}</span>
-                {item.name === 'AI Assistant' && (
-                  <span className="ml-auto text-[10px] bg-brand-500/20 text-brand-300 font-semibold px-1.5 py-0.5 rounded">
-                    LIVE
+                <span className="truncate">{item.name}</span>
+                {item.badge && (
+                  <span className={`ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded border ${item.badgeColor || 'bg-brand-500/20 text-brand-300'}`}>
+                    {item.badge}
                   </span>
                 )}
               </NavLink>
@@ -100,9 +108,9 @@ export const Sidebar = () => {
       <div className="p-4 border-t border-slate-800/80 text-xs text-slate-500 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>SOC2 & RLS Active</span>
+          <span>SOC2 & Supabase Active</span>
         </div>
-        <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded font-mono">v1.0</span>
+        <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded font-mono">v1.2</span>
       </div>
     </aside>
   );

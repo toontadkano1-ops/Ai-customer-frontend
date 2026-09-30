@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar.jsx';
 import { Header } from './Header.jsx';
+import { FloatingChatWidget } from '../chatbot/FloatingChatWidget.jsx';
 
 export const MainLayout = () => {
   return (
@@ -18,6 +19,9 @@ export const MainLayout = () => {
           </div>
         </main>
       </div>
+
+      {/* Persistent Customer Live Chat Floating Widget */}
+      <FloatingChatWidget />
     </div>
   );
 };

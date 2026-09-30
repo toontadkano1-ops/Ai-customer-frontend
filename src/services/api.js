@@ -30,7 +30,16 @@ api.interceptors.response.use(
         localStorage.removeItem('cx_user');
       }
     }
-    const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
+    let message = error.response?.data?.message;
+    if (!message) {
+      if (error.response?.status === 404) {
+        message = 'Backend API endpoint not found (404). Please ensure backend is running and VITE_API_BASE_URL points to backend /api.';
+      } else if (error.code === 'ERR_NETWORK') {
+        message = 'Cannot connect to backend server. Please verify backend is running.';
+      } else {
+        message = error.message || 'An unexpected error occurred';
+      }
+    }
     return Promise.reject(new Error(message));
   }
 );

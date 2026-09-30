@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const getBaseURL = () => {
   const envUrl = import.meta.env.VITE_API_BASE_URL;
-  if (envUrl && envUrl !== '/api') {
-    return envUrl;
+  if (envUrl && envUrl !== '/api' && !envUrl.startsWith('/')) {
+    return envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
   }
   // Automatically fallback to live Render backend if running on cloud domain
   if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
@@ -12,8 +12,11 @@ const getBaseURL = () => {
   return '/api';
 };
 
+const resolvedBaseURL = getBaseURL();
+console.log('[CX Intelligence API] Target URL:', resolvedBaseURL);
+
 const api = axios.create({
-  baseURL: getBaseURL(),
+  baseURL: resolvedBaseURL,
   headers: {
     'Content-Type': 'application/json'
   }
